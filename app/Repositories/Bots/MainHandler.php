@@ -45,7 +45,7 @@ class MainHandler extends UpdateHandler
         //$response = new \stdClass();
         //$response->text = 'ШАЛОМ '.$emojie.' '.$UserName;
 
-        $Tele_id = $this->update->user()->id;
+        $Tele_id = (integer)$this->update->user()->id;
         $mytext = $this->update->message->text;
         $piecesauth = explode(" ", $mytext);
 
@@ -84,12 +84,17 @@ class MainHandler extends UpdateHandler
                 return;
             }
 
-            $writeUser = BotAdmin::find($ResBotUserId);
+/*            $writeUser = BotAdmin::find($ResBotUserId);
             $writeUser->update([
                 'name' => $this->update->user()->first_name,
                 'tele_id' => $this->update->user()->id,
                 'role' => 'Admin',
-            ]);
+            ]);*/
+            //$writeUser = BotAdmin::find($Tele_id);
+            $writeUser = BotAdmin::updateOrCreate(
+                ['name' => $UserName, 'tele_id' => $Tele_id ],
+                ['role' => 'Admin'] // Like where condition
+            );
 
             if ($user_db->name == $pieces[1] && Hash::check($pieces[2], $user_db->password)) {
                 HomeController::messagesend('Привет ' . $user_db->name . ' вы вошли в админ режим', $Tele_id);
@@ -101,26 +106,32 @@ class MainHandler extends UpdateHandler
 
 
         if ($mytext == '/logout' && $ResBotUserRole == 'Admin') {
-            $writeUser = BotAdmin::find($ResBotUserId);
+/*            $writeUser = BotAdmin::find($ResBotUserId);
             $writeUser->update([
                 'name' => '',
                 'tele_id' => '0', //451559836
                 'role' => 'User',
-            ]);
-            $auth=false;
+            ]);*/
+            //$writeUser = BotAdmin::find($Tele_id);
+
+            $writeUser = BotAdmin::updateOrCreate(
+            ['name' => $UserName, 'tele_id' => $Tele_id ],
+            ['role' => 'User'] // Like where condition
+            );
+            //$auth=false;
             HomeController::messagesend($UserName . ' вы вышли из режима админ', $Tele_id);
         }
 
-        if ($mytext == '/auth force') {
+/*        if ($mytext == '/auth force') {
             $writeUser = BotAdmin::find(1);
             $writeUser->update([
                 'name' => $this->update->user()->first_name,
                 'tele_id' => $this->update->user()->id, //451559836
                 'role' => 'Admin',
             ]);
-            $auth=true;
+            //$auth=true;
             HomeController::messagesend($UserName . ' вы теперь админ', $Tele_id);
-        }
+        }*/
 
         if ($mytext == '/list' && $ResBotUserRole == 'Admin') {
             foreach (TextAnswer::all() as $fl) {
@@ -192,7 +203,7 @@ class MainHandler extends UpdateHandler
         if($mytext == '/start'){
            $rndqa = TextAnswer::orderByRaw("RAND()")->first();
             $response = new \stdClass();
-            $response->text = 'ШАЛОМ ' . $emojie . ' ' . $UserName . "\n" . 'Что я умею: ты задаеш вопрос я отвечаю'. "\n" .'пример: '.$rndqa->text_type.' - '.$rndqa->answer;
+            $response->text = 'ШАЛОМ ' . $emojie . ' ' . $UserName . "\n" . 'Что я умею: ты задаешь вопрос я отвечаю'. "\n" .'пример: '.$rndqa->text_type.' - '.$rndqa->answer;
         }else {
             $response = new \stdClass();
             $response->text = 'У меня не ответа на этот вопрос '.$emojie2;

@@ -18,16 +18,17 @@
 
                     {{ __('You are logged in!') }}
                     --}}
+                    <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">+</a>
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">ID</th>
                                 <th scope="col">Question</th>
                                 <th scope="col">Answer</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($qatext as $p)
+                            @foreach($qatext as $key=>$p)
                             <tr>
                                 <form action="{{ route('edit', $p->id)}}" method="post">
                                     @csrf
@@ -49,7 +50,8 @@
                             @endforeach
                             </tbody>
                         </table>
-                            <a class="btn btn-success" href="{{ route('create') }}">+</a>
+<!--                            <a class="btn btn-success" href="{{ route('create') }}">+</a>-->
+
                     <br/>
                     {{$qatext->links('vendor.pagination.simple-bootstrap-4')}}
 
@@ -58,4 +60,39 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Добавить новую запись</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('create')}}" method="post">
+                    @csrf
+                <div class="form-floating mb-3">
+                    <input type="text" name="qw" class="form-control rounded-3" id="questionInput" placeholder="Вопрос">
+                    <label for="questionInput">Вопрос:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" name="an" class="form-control rounded-3" id="answerInput" placeholder="Ответ">
+                    <label for="answerInput">Ответ:</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 @endsection
