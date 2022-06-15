@@ -71,6 +71,8 @@ class MainHandler extends UpdateHandler
             //echo $pieces[0]; // login
             //echo $pieces[1]; // pass
 
+            if (empty($pieces[1])){return;}
+
             $user_db = (User::where('name', $pieces[1])->first());
             if ($user_db == null) {
                 HomeController::messagesend('Пользователь ' . $pieces[1] . ' не найден', $Tele_id);
