@@ -23,11 +23,6 @@ Route::get('/', function () {
 
 });
 
-Route::get('/mod', function () {
-    return view('mod');
-
-});
-
 Route::get('/login', function () {
     return view('/auth/login');
 
@@ -36,8 +31,9 @@ Route::get('/login', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home&need_approve', [App\Http\Controllers\HomeController::class, 'approveShow'])->name('show.only.approve');
+Route::get('/home&approve{keyap}', [App\Http\Controllers\HomeController::class, 'approve'])->name('approve');
 Route::post('/home/create',[App\Http\Controllers\HomeController::class, 'create'])->name('create');
-
 //Route::get('/home/create',[App\Http\Controllers\HomeController::class, 'create'])->name('create');
 
 

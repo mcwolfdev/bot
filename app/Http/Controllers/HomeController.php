@@ -27,11 +27,38 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $qatextcount = TextAnswer::all();
         //$qatext = TextAnswer::paginate(5);
-        $qatext = TextAnswer::orderBy('id', 'desc')->paginate(20);
+        $qacount    = TextAnswer::where('approve', 0)->get();
+        $qaall      = TextAnswer::all();
+        $qacount2    = TextAnswer::where('approve', 1)->get();
+        //$qatext     = TextAnswer::orderBy('id', 'desc')->paginate(20);
+        $qatext     = TextAnswer::where('approve', 1)
+            ->orderBy('id','desc')
+            ->paginate(20);
 
-        return view('home',compact('qatext'));
+        return view('home',compact('qatext', 'qacount', 'qaall', 'qacount2'));
+    }
+
+    public function approveShow()
+    {
+        $qacount    = TextAnswer::where('approve', 0)->get();
+        $qacount2    = TextAnswer::where('approve', 1)->get();
+        $qaall      = TextAnswer::all();
+        $qatext     = TextAnswer::where('approve', 0)
+            ->orderBy('id','desc')
+            ->paginate(20);
+        return view('home',compact('qatext', 'qacount', 'qaall', 'qacount2'));
+    }
+
+    public function approve($keyap)
+    {
+        $approve = TextAnswer::find($keyap);
+        $approve->update([
+            'approve' =>  1,
+        ]);
+
+        return redirect()->route('home');
+
     }
 
     public function create(Request $request){

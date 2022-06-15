@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('textanswer', function (Blueprint $table) {
             $table->id();
-            $table->morphs('text');
+            $table->string('text_type');
             $table->string('answer');
+            $table->boolean('approve')
             $table->timestamps();
         });
     }
