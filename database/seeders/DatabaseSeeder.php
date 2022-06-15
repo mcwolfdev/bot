@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
                 'name' => Str::random(5),
                 'email' => Str::random(5).'@gmail.com',
                 'password' => Hash::make('password'),
+
             ]);
         } else {
             return;
