@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,10 +20,16 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        DB::table('users')->insert([
-            'name' => Str::random(5),
-            'email' => Str::random(5).'@gmail.com',
-            'password' => Hash::make('password'),
-        ]);
+        $user_db = (User::where('name', 'admin')->first());
+        if (empty($user_db)){
+            User::table('users')->create([
+                'name' => Str::random(5),
+                'email' => Str::random(5).'@gmail.com',
+                'password' => Hash::make('password'),
+            ]);
+        } else {
+            return;
+        }
+
     }
 }

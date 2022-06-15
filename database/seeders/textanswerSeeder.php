@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Debug;
 use App\Models\TextAnswer;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class textanswerSeeder extends Seeder
