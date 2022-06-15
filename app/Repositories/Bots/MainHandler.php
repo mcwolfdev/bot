@@ -70,7 +70,6 @@ class MainHandler extends UpdateHandler
             $pieces = explode(" ", $mytext);
             //echo $pieces[0]; // login
             //echo $pieces[1]; // pass
-
             if (empty($pieces[1])){return;}
 
             $user_db = (User::where('name', $pieces[1])->first());
