@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('text_type');
             $table->string('answer');
             $table->boolean('approve');
+
             $table->timestamps();
         });
     }
