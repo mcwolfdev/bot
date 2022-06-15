@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         $user_db = (User::where('name', 'admin')->first());
         if (empty($user_db)){
-            User::table('users')->create([
+            User::table('users')->insert([
                 'name' => Str::random(5),
                 'email' => Str::random(5).'@gmail.com',
                 'password' => Hash::make('password'),
